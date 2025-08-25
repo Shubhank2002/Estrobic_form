@@ -32,7 +32,7 @@ const NewForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/upload",
+        "https://estrobic-form-backend123.onrender.com/api/upload",
         payload
       );
       console.log(response.data.data)

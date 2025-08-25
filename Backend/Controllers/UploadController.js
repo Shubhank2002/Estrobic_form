@@ -13,7 +13,7 @@ const UploadFile=(req,res)=>{
                 storedName:file.filename,
                 path:file.path,
                 size:file.size,
-                url:`http://localhost:8000/uploads/${file.filename}`
+                url:`https://estrobic-form-backend123.onrender.com/uploads/${file.filename}`
             }
         }
     })
