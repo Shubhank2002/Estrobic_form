@@ -1,6 +1,7 @@
 const { google } = require("googleapis");
 const { Readable } = require("stream");
 
+// Google Auth
 const auth = new google.auth.GoogleAuth({
   keyFile: process.env.CREDENTIALS_PATH,
   scopes: ["https://www.googleapis.com/auth/drive.file"],
@@ -8,19 +9,14 @@ const auth = new google.auth.GoogleAuth({
 
 const drive = google.drive({ version: "v3", auth });
 
-const bufferToStream = (buffer) => {
-  const stream = new Readable();
-  stream.push(buffer);
-  stream.push(null);
-  return stream;
-};
-
 const UploadFile = async (req, res) => {
   try {
     const { name, email, phone, position } = req.body;
     const file = req.file;
 
-    if (!file) return res.status(400).json({ message: "No file uploaded" });
+    if (!file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
 
     const fileMetadata = {
       name: file.originalname,
@@ -29,13 +25,14 @@ const UploadFile = async (req, res) => {
 
     const media = {
       mimeType: file.mimetype,
-      body: bufferToStream(file.buffer),
+      body: Readable.from(file.buffer), // Upload directly from memory
     };
 
     const uploadedFile = await drive.files.create({
       resource: fileMetadata,
       media,
       fields: "id, webViewLink, webContentLink",
+      supportsAllDrives: true, // ✅ required for shared My Drive folders
     });
 
     res.status(200).json({
