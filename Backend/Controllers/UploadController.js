@@ -1,22 +1,59 @@
-const UploadFile=(req,res)=>{
-    const {name,email,phone,position}=req.body
+const fs = require("fs");
+const { google } = require("googleapis");
 
-    const file=req.file
-    if(!file){
-        return res.status(400).json({message:'no file uploaded'});
-    }
+// Google Auth
+const auth = new google.auth.GoogleAuth({
+  keyFile: process.env.CREDENTIALS_PATH,
+  scopes: ["https://www.googleapis.com/auth/drive.file"],
+});
+
+const drive = google.drive({ version: "v3", auth });
+
+const UploadFile = async (req, res) => {
+  try {
+    const { name, email, phone, position } = req.body;
+    const file = req.file;
+
+    if (!file) return res.status(400).json({ message: "No file uploaded" });
+
+    const fileMetadata = {
+      name: file.originalname,
+      parents: [process.env.GOOGLE_FOLDER_ID],
+    };
+
+    // Create a readable stream from disk
+    const media = {
+      mimeType: file.mimetype,
+      body: fs.createReadStream(file.path), // stream file instead of buffering
+    };
+
+    const uploadedFile = await drive.files.create({
+      resource: fileMetadata,
+      media,
+      fields: "id, webViewLink, webContentLink",
+    });
+
+    // Delete local file immediately
+    fs.unlinkSync(file.path);
+
     res.status(200).json({
-        message:'Upload successfull',
-        data:{
-            name,email,file:{
-                originalName:file.originalname,
-                storedName:file.filename,
-                path:file.path,
-                size:file.size,
-                url:`https://estrobic-form-backend123.onrender.com/uploads/${file.filename}`
-            }
-        }
-    })
-}
-
-module.exports={UploadFile}
+      message: "Upload successful",
+      data: {
+        name,
+        email,
+        phone,
+        position,
+        file: {
+          originalName: file.originalname,
+          size: file.size,
+          driveFileId: uploadedFile.data.id,
+          driveViewLink: uploadedFile.data.webViewLink,
+          driveDownloadLink: uploadedFile.data.webContentLink,
+        },
+      },
+    });
+  } catch (error) {
+    console.error("Google Drive Upload Error:", error);
+    res.status(500).json({ message: "Upload failed", error: error.message });
+  }
+};

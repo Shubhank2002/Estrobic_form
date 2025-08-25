@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express=require('express')
 const uploadRouter = require('./Routes/UploadRoute')
 const app=express()
