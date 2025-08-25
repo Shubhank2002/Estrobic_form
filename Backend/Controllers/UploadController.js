@@ -1,42 +1,42 @@
 const { google } = require("googleapis");
+const { Readable } = require("stream");
 
-// Google Drive Authentication
 const auth = new google.auth.GoogleAuth({
-  keyFile: process.env.CREDENTIALS_PATH, // Secret File path
+  keyFile: process.env.CREDENTIALS_PATH,
   scopes: ["https://www.googleapis.com/auth/drive.file"],
 });
 
 const drive = google.drive({ version: "v3", auth });
+
+const bufferToStream = (buffer) => {
+  const stream = new Readable();
+  stream.push(buffer);
+  stream.push(null);
+  return stream;
+};
 
 const UploadFile = async (req, res) => {
   try {
     const { name, email, phone, position } = req.body;
     const file = req.file;
 
-    if (!file) {
-      return res.status(400).json({ message: "No file uploaded" });
-    }
+    if (!file) return res.status(400).json({ message: "No file uploaded" });
 
-    // File metadata for Google Drive
     const fileMetadata = {
       name: file.originalname,
       parents: [process.env.GOOGLE_FOLDER_ID],
     };
 
-    // Use buffer directly for upload
     const media = {
       mimeType: file.mimetype,
-      body: Buffer.from(file.buffer),
+      body: bufferToStream(file.buffer),
     };
 
-    // Upload file to Google Drive
     const uploadedFile = await drive.files.create({
       resource: fileMetadata,
       media,
       fields: "id, webViewLink, webContentLink",
     });
-
-    // Once uploaded, memory buffer is automatically released after function exits
 
     res.status(200).json({
       message: "Upload successful",
