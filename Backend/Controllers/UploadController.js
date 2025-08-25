@@ -18,8 +18,9 @@ const UploadFile = async (req, res) => {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
+    // ----------- Upload resume to Google Drive -----------
     const fileMetadata = {
-      name: file.originalname,
+      name: `${name}_Resume${file.originalname.substring(file.originalname.lastIndexOf("."))}`,
       parents: [process.env.GOOGLE_FOLDER_ID],
     };
 
@@ -32,9 +33,36 @@ const UploadFile = async (req, res) => {
       resource: fileMetadata,
       media,
       fields: "id, webViewLink, webContentLink",
-      supportsAllDrives: true, // ✅ required for shared My Drive folders
+      supportsAllDrives: true,
     });
 
+    // ----------- Upload metadata JSON to Google Drive -----------
+    const metadataJson = {
+      name,
+      email,
+      phone,
+      position,
+      resumeFileName: uploadedFile.data.name,
+      resumeDriveId: uploadedFile.data.id,
+      resumeDriveLink: uploadedFile.data.webViewLink,
+    };
+
+    const metadataBuffer = Buffer.from(JSON.stringify(metadataJson, null, 2));
+
+    const metadataFile = await drive.files.create({
+      resource: {
+        name: `${name}_Details.json`,
+        parents: [process.env.GOOGLE_FOLDER_ID],
+      },
+      media: {
+        mimeType: "application/json",
+        body: Readable.from(metadataBuffer),
+      },
+      fields: "id, webViewLink, webContentLink",
+      supportsAllDrives: true,
+    });
+
+    // ----------- Response -----------
     res.status(200).json({
       message: "Upload successful",
       data: {
@@ -42,12 +70,15 @@ const UploadFile = async (req, res) => {
         email,
         phone,
         position,
-        file: {
-          originalName: file.originalname,
-          size: file.size,
+        resume: {
           driveFileId: uploadedFile.data.id,
           driveViewLink: uploadedFile.data.webViewLink,
           driveDownloadLink: uploadedFile.data.webContentLink,
+        },
+        metadata: {
+          driveFileId: metadataFile.data.id,
+          driveViewLink: metadataFile.data.webViewLink,
+          driveDownloadLink: metadataFile.data.webContentLink,
         },
       },
     });
