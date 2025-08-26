@@ -48,7 +48,7 @@ const NewForm = () => {
     }
   };
   return (
-    <div className="w-[100vw]  h-[100vh] flex flex-col gap-5 justify-center items-center">
+    <div className="w-[100vw]  h-[100vh] flex flex-col gap-5 justify-center items-center pt-20">
       <h1 className="text-3xl font-bold ">My Information</h1>
       <form
         action=""
@@ -179,7 +179,7 @@ const NewForm = () => {
           className="self-end p-3 bg-black text-white rounded-2xl cursor-pointer w-1/2"
           onClick={handleClick}
         >
-          Next
+          Save
         </button>
       </form>
       {uploadResult?.file?.url && (
