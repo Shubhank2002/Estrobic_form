@@ -135,7 +135,7 @@ const NewForm = () => {
           <label className="font-semibold">Experience (in years)</label>
           <input
             type="number"
-            className="border p-3 rounded-lg w-full"
+            className="border p-3 rounded-lg w-ful text-center"
             name="experience"
             value={newformData.experience}
             onChange={handleChange}
