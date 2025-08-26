@@ -48,7 +48,7 @@ const NewForm = () => {
     }
   };
   return (
-    <div className="w-[100vw]  h-[100vh] flex flex-col gap-5 justify-center items-center py-20">
+    <div className="w-[100vw]   flex flex-col gap-5 justify-center items-center py-20">
       <h1 className="text-3xl font-bold mb-52">My Information</h1>
       <form
         action=""
