@@ -52,7 +52,7 @@ const NewForm = () => {
       <h1 className="text-3xl font-bold ">My Information</h1>
       <form
         action=""
-        className="flex flex-col gap-5 border-2 rounded-2xl p-5 w-1/4"
+        className="flex flex-col gap-8 border-2 rounded-2xl p-5 w-1/4"
       >
         <div className="flex flex-col gap-3">
           <h1 className="text-2xl font-bold">Legal Name</h1>
