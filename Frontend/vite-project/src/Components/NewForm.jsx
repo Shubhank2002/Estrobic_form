@@ -49,7 +49,7 @@ const NewForm = () => {
   };
   return (
     <div className="w-[100vw]  h-[100vh] flex flex-col gap-5 justify-center items-center pt-20">
-      <h1 className="text-3xl font-bold ">My Information</h1>
+      <h1 className="text-3xl font-bold mb-52">My Information</h1>
       <form
         action=""
         className="flex flex-col gap-8 border-2 rounded-2xl p-5 w-1/4"
