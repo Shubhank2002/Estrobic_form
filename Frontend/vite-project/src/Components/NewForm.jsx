@@ -176,7 +176,7 @@ const NewForm = () => {
           />
         </div>
         <button
-          className="self-end p-3 bg-black text-white rounded-2xl cursor-pointer w-1/2"
+          className="self-end p-3 bg-black text-white rounded-2xl cursor-pointer w-1/2 hover:bg-blue-400 transition-all duration-150 delay-150 scale-125"
           onClick={handleClick}
         >
           Save
