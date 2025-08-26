@@ -11,6 +11,7 @@ const NewForm = () => {
     addressline: "",
     city: "",
     state: "",
+    experience: 0,
   });
   const [uploadResult, setuploadResult] = useState(null);
 
@@ -130,6 +131,16 @@ const NewForm = () => {
             <option value="frontend">Frontend Developer</option>
           </select>
         </div>
+        <div className="flex flex-col gap-2">
+          <label className="font-semibold">Experience (in years)</label>
+          <input
+            type="number"
+            className="border p-3 rounded-lg w-full"
+            name="experience"
+            value={newformData.experience}
+            onChange={handleChange}
+          />
+        </div>
 
         {/* File Upload */}
         <div className="flex flex-col gap-2">
@@ -150,18 +161,6 @@ const NewForm = () => {
           Save
         </button>
       </form>
-
-      {/* Resume Link */}
-      {uploadResult?.file?.url && (
-        <a
-          href={uploadResult.file.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 underline mt-4"
-        >
-          View Uploaded Resume
-        </a>
-      )}
     </div>
   );
 };
