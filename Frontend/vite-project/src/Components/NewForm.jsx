@@ -8,9 +8,9 @@ const NewForm = () => {
     email: "",
     position: "",
     file: null,
-    addressline:'',
-    city:'',
-    state:''
+    addressline: "",
+    city: "",
+    state: "",
   });
   const [uploadResult, setuploadResult] = useState(null);
 
@@ -30,9 +30,9 @@ const NewForm = () => {
     payload.append("name", newformData.name);
     payload.append("email", newformData.email);
     payload.append("phone", newformData.phone);
-    payload.append('city',newformData.city)
-    payload.append('state',newformData.state)
-    payload.append('addressline',newformData.addressline)
+    payload.append("city", newformData.city);
+    payload.append("state", newformData.state);
+    payload.append("addressline", newformData.addressline);
     payload.append("position", newformData.position);
     payload.append("file", newformData.file);
 
@@ -101,7 +101,7 @@ const NewForm = () => {
           </div>
           <div className="flex flex-col gap-3">
             <label htmlFor="" className="self-start">
-              State 
+              State
             </label>
             <input
               type="text"
@@ -113,43 +113,55 @@ const NewForm = () => {
             />
           </div>
         </div>
+        <div className="flex flex-col gap-3">
+          <h1 className="text-2xl font-bold">Email Id</h1>
+          <div className="flex flex-col gap-3">
+            <label htmlFor="" className="self-start">
+              Email Address
+            </label>
+            <input
+              type="text"
+              placeholder="Enter your Email..."
+              className="border p-3 rounded-lg "
+              name="email"
+              value={newformData.email}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
 
         <div className="flex flex-col gap-3">
-          <label htmlFor="" className="self-start">
-            Email Address
-          </label>
-          <input
-            type="text"
-            placeholder="Enter your Email..."
-            className="border p-3 rounded-lg "
-            name="email"
-            value={newformData.email}
-            onChange={handleChange}
-          />
+          <h1 className="text-2xl font-bold">Phone Details</h1>
+          <div className="flex flex-col gap-3">
+            <label htmlFor="" className="self-start">
+              Phone No.
+            </label>
+            <input
+              type="text"
+              placeholder="Enter your Phone No. "
+              className="border p-3 rounded-lg "
+              name="phone"
+              value={newformData.phone}
+              onChange={handleChange}
+            />
+          </div>
         </div>
-        <div className="flex flex-col gap-3">
-          <label htmlFor="" className="self-start">
-            Phone No.
-          </label>
-          <input
-            type="text"
-            placeholder="Enter your Phone No. "
-            className="border p-3 rounded-lg "
-            name="phone"
-            value={newformData.phone}
-            onChange={handleChange}
-          />
-        </div>
-        <div className="flex flex-col gap-3">
+
+        <div className="flex flex-col gap-3 mt-6">
           <label htmlFor="position" className="self-start">
             Position applied for
           </label>
-          <select name="position" id="position" value={newformData.position} onChange={handleChange} className="py-2 px-3 bg-[#f9f9f9] text-[16px] rounded-lg border border-[#ccc] focus:border-[#007bff] outline-none">
+          <select
+            name="position"
+            id="position"
+            value={newformData.position}
+            onChange={handleChange}
+            className="py-2 px-3 bg-[#f9f9f9] text-[16px] rounded-lg border border-[#ccc] focus:border-[#007bff] outline-none"
+          >
             <option value="">Choose position</option>
             <option value="backend">Backend Developer</option>
             <option value="frontend">Frontend Developer</option>
           </select>
-          
         </div>
         <div className="flex flex-col gap-3">
           <label htmlFor="" className="self-start">

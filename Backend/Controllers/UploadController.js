@@ -11,7 +11,7 @@ const drive = google.drive({ version: "v3", auth });
 
 const UploadFile = async (req, res) => {
   try {
-    const { name, email, phone, position } = req.body;
+    const { name, email, phone, position ,addressline,city,state} = req.body;
     const file = req.file;
 
     if (!file) {
@@ -42,6 +42,9 @@ const UploadFile = async (req, res) => {
       email,
       phone,
       position,
+      addressline,
+      city,
+      state,
       resumeFileName: uploadedFile.data.name,
       resumeDriveId: uploadedFile.data.id,
       resumeDriveLink: uploadedFile.data.webViewLink,
@@ -70,6 +73,7 @@ const UploadFile = async (req, res) => {
         email,
         phone,
         position,
+        addressline,city,state,
         resume: {
           driveFileId: uploadedFile.data.id,
           driveViewLink: uploadedFile.data.webViewLink,
