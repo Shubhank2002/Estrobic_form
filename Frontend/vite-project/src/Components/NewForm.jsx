@@ -155,7 +155,7 @@ const NewForm = () => {
 
         {/* Submit Button */}
         <button
-          className="p-3 bg-black text-white rounded-2xl cursor-pointer w-full md:w-1/2 mx-auto hover:bg-blue-500 transition-all"
+          className="p-3 bg-black text-white rounded-2xl cursor-pointer w-full md:w-1/2 mx-auto hover:bg-blue-500 transition-all delay-150 duration-150 hover:scale-110"
           onClick={handleClick}
         >
           Save
